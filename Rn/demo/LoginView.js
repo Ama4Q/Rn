@@ -15,7 +15,7 @@ export default class loginView extends Component {
     render() {
         return (
             <View style={styles.container} >
-                <Image source={require('./img/favicon.png')} style={styles.iconStyle} />
+                <Image source={require('../img/favicon.png')} style={styles.iconStyle} />
                 <TextInput placeholder='请输入用户名' style={styles.textInputStyle} />
                 <TextInput placeholder='请输入密码' password={true} style={styles.textInputStyle} />
                 <View style={styles.loginBtnStyle} >
@@ -27,9 +27,9 @@ export default class loginView extends Component {
                 </View>
                 <View style={styles.otherStyle} >
                     <Text>其他登录方式:</Text>
-                    <Image source={require('./img/favicon.png')} style={styles.otherLoginStyle} />
-                    <Image source={require('./img/favicon.png')} style={styles.otherLoginStyle} />
-                    <Image source={require('./img/favicon.png')} style={styles.otherLoginStyle} />
+                    <Image source={require('../img/favicon.png')} style={styles.otherLoginStyle} />
+                    <Image source={require('../img/favicon.png')} style={styles.otherLoginStyle} />
+                    <Image source={require('../img/favicon.png')} style={styles.otherLoginStyle} />
                 </View>
             </View>
         );

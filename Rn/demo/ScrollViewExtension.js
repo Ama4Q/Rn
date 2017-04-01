@@ -11,9 +11,6 @@ import {
 // 引入定时器类库
 var TimerMixin = require('react-timer-mixin');
 
-// 获取json数据
-var ImageData = require('./ImageData.json');
-
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
 var {width} = Dimensions.get('window');
@@ -26,7 +23,10 @@ var ScrollViewDemo = React.createClass({
     // 初始化props
     getDefaultProps() {
         return {
-            duration: 2000
+            duration: 2000,
+
+            // 对外数组, 获取外部数据
+            publicImgs: []
         };
     },
 
@@ -36,7 +36,10 @@ var ScrollViewDemo = React.createClass({
             // 当前scrollView页码
             currentPage: 1,
             // 当前指示器页码
-            currentIndicator: 0
+            currentIndicator: 0,
+
+
+            title: this.props.publicImgs[0].title
         };
     },
 
@@ -55,7 +58,10 @@ var ScrollViewDemo = React.createClass({
                 </ScrollView>
                 {/*指示器*/}
                 <View style={styles.pagViewStyle}>
-                    {this.renderpageCircle()}
+                    <Text style={{color: 'white', paddingLeft: 5}}>{this.state.title}</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center', paddingRight: 10, height: 25}}>
+                        {this.renderpageCircle()}
+                    </View>
                 </View>
             </View>
         );
@@ -84,7 +90,7 @@ var ScrollViewDemo = React.createClass({
 
     renderAllImage() {
         var allImages = [];
-        var images = ImageData.data;
+        var images = this.props.publicImgs;
         let lenght = images.length;
 
         // scrollView内容布局为 "4 0 1 2 3 4 0"
@@ -92,11 +98,11 @@ var ScrollViewDemo = React.createClass({
             var imageName;
 
             if (i < 1) {
-                imageName = images[lenght - 1].img;
+                imageName = images[lenght - 1].imgsrc;
             } else if (i > lenght) {
-                imageName = images[0].img;
+                imageName = images[0].imgsrc;
             } else {
-                imageName = images[i - 1].img;
+                imageName = images[i - 1].imgsrc;
             }
 
             allImages.push(
@@ -110,11 +116,11 @@ var ScrollViewDemo = React.createClass({
         var indicatorArr = [];
         var style;
 
-        var imgArr = ImageData.data;
-        for(var i = 0; i < imgArr.length; i ++ ) {
+        var images = this.props.publicImgs;
+        for(var i = 0; i < images.length; i ++ ) {
             style = (i == this.state.currentIndicator) ? {color: 'orange', fontSize: 25} : {color: 'white', fontSize: 18};
             indicatorArr.push(
-                <Text key = {i} style={style}>&bull;</Text>
+                <Text key = {i} style={[style, {textAlign: 'center', width: 13}]}>&bull;</Text>
             );
         }
         return indicatorArr;
@@ -124,7 +130,7 @@ var ScrollViewDemo = React.createClass({
     onAnimationEnd(e) {
         var offSetx = e.nativeEvent.contentOffset.x;
         var currentPage = Math.floor(offSetx / width);
-        let length = ImageData.data.length;
+        let length = this.props.publicImgs.length;
 
         // scrollView内容布局为 "4 0 1 2 3 4 0"
         // 如果page到了最后一页,跳转的第二页
@@ -141,15 +147,18 @@ var ScrollViewDemo = React.createClass({
 
         this.setState({
             currentPage: currentPage,
-            currentIndicator: currentPage - 1
+            currentIndicator: currentPage - 1,
+            title: this.props.publicImgs[currentPage - 1].title
         });
 
     },
 
+    // 开始拖拽
     onScrollBeginDrag() {
         this.clearInterval(this.timer);
     },
 
+    // 停止拖拽
     onScrollEndDrag() {
         this.startTimer();
     }
@@ -157,7 +166,6 @@ var ScrollViewDemo = React.createClass({
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 20
     },
     pagViewStyle: {
         width: width,
@@ -168,7 +176,8 @@ const styles = StyleSheet.create({
         bottom: 0,
 
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'space-between'
     }
 });
 

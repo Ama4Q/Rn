@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 // 导入json数据
-var wines = require('./Wine.json');
+var wines = require('../demo/Wine.json');
 var Dimensions = require('Dimensions');
 var {width} = Dimensions.get('window');
 

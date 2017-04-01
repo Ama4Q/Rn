@@ -10,7 +10,7 @@ import {
     AlertIOS
 } from 'react-native';
 
-var shareData = require('./shareData.json');
+var shareData = require('../demo/shareData.json');
 var Dimensions = require('Dimensions');
 var {width, height} = Dimensions.get('window');
 

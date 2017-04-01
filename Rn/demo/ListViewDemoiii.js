@@ -10,7 +10,7 @@ import {
     AlertIOS
 } from 'react-native';
 
-var car = require('./Car.json');
+var car = require('../demo/Car.json');
 var Dimensions = require('Dimensions');
 var {width} = Dimensions.get('window');
 
